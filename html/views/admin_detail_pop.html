@@ -1,0 +1,58 @@
+<?php require_once _VIEW_PATH . 'common.header.html'; ?>
+    <div class="contents">
+        <div class="box" style="max-width:1200px; width:calc(100% - 40px); margin:0 auto;">
+
+            <h3>관리자 등록/수정<span><button class="btn btn-popup-close">팝업닫기</button></span></h3>
+
+            <form name="frm_register" action="<?=_WEB_ROOT?>/admin.php" method="POST">
+            <input type="hidden" name="act" value="<?=(sizeof($admin_list) > 0)? 'modify':'register'?>">
+            <table class="table_popup">
+                <tr>
+                    <th scope="col">관리자명</th>
+                    <td><input type="text" name="name" class="i_box" value="<?=$admin_list[0]['name']?>" /></td>
+                    <th scope="col">ID</th>
+                    <td><input type="text" name="id" class="i_box" value="<?=$admin_list[0]['id']?>" placeholder="" <?=(strlen($admin_list) > 0)? 'readOnly':''?>/></td>
+                </tr>
+                <tr>
+                    <th scope="col">PassWord</th>
+                    <td><input type="password" name="password" class="i_box" placeholder="" /></td>
+                    <th scope="col">권한</th>
+                    <td><select name="auth">
+                        <option value="">선택</option>
+                        <?php foreach ($auth_list as $auth):?>
+                        <option value="<?=$auth['id']?>" <?=($auth['id'] == $admin_list[0]['auth'])?'selected="selected"':''?>><?=$auth['name']?></option>
+                        <?php endforeach;?>
+                    </select></td>
+                </tr>
+                <tr>
+                    <th scope="col">이메일</th>
+                    <td><input type="text" name="email" class="i_box" value="<?=$admin_list[0]['email']?>" placeholder="" /></td>
+                    <th scope="col">정렬값</th>
+                    <td><input type="text" name="sort" class="ad_box" style="width:50px" value="<?=$admin_list[0]['sort']?>"/></td>
+                </tr>
+            </table>
+
+            <div class="pager">
+                <button type="button" class="btn btn_bottom btn_black btn-popup-close">취소</button> <button type="submit" class="btn btn_bottom btn_red">등록/수정</button>
+            </div>
+            </form>
+        </div>
+    </div>
+<script type="text/javascript">
+    $(function() {
+        $('form[name=frm_register]').submit(function () {
+            var bool = true;
+            $(this).find('table input:not(:hidden,:password),table select').each(function (idx, data) {
+                if ($.trim($(this).val()) == '') {
+                    bool = false;
+                    alert('값이 입력되지 않은 항목이 있습니다.');
+                    $(this).focus();
+                    return false;
+                }
+            });
+
+            return bool;
+        });
+    });
+</script>
+<?php require_once _VIEW_PATH . 'footer.html'; ?>

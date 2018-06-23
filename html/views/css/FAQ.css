@@ -1,0 +1,59 @@
+@charset "utf-8";
+/* 141002 DT */
+
+/* Common */
+html,body{height:100%}
+body,p,ul,ol,li,dl,dt,dd,table,th,td,form,fieldset,legend,input,textarea,button,select{margin:0;padding:0}
+
+/* faq page */
+.section{ overflow:hidden; min-width:300px; max-width:1000px; height:auto;margin:0 auto; padding:25px 20px 20px 20px}
+.h_txt{float:left;width:196px;height:42px;background:url(../images/sp_library_about_v1.png) 0 -380px no-repeat}
+.con{font-size:12px;line-height:18px}
+
+
+.faq_h2 { display:block; font-size:24px; font-weight:400; color:#333; line-height:0.7em; padding:0; margin:0}
+.faq_h2 span { display:block; margin:20px 0; font-size:13px; font-weight:normal; color:#666; line-height:1.5em; }
+
+.section p { font-size:14px; }
+.section p a { font-weight:bold; color:#ff6600 }
+
+.section .con{height:auto;margin-bottom:60px}
+.section .faq_area{border-bottom:4px solid #040707}
+.section .faq_area li{position:relative;overflow:hidden;height:auto;border-top:1px solid #d2d2d2;vertical-align:top}
+.section .faq_area .notice_link_box{width:660px;padding:17px 0 18px 23px;font-size:14px;font-weight:bold;background:url(../images/ico_about3_q.png) 0 19px no-repeat}
+.section .faq_area .notice_link_box a{color:#222}
+.section .faq_area .notice_link_box.answer{width:100%;font-size:12px;font-weight:normal;border-top:1px solid #ebebeb;color:#666;background:url(../images/ico_about3_a.png) 0 19px no-repeat}
+.section .faq_area .notice_link_box .answer_con{width:100%}
+.section .faq_area .btn_answer{
+	position: absolute;
+	top: 22px;
+	right: 6px;
+	width: 20px;
+	height: 11px;
+	background:url(../images/sp_library_about_v1.png) -210px -380px no-repeat;
+	background-image:url(../images/sp_library_about_v1.png);
+}
+.section .faq_area .btn_answer.open{background:url(../images/sp_library_about_v1.png) -210px -410px no-repeat}
+.section .faq_area .operating_hour{overflow:hidden}
+.section .faq_area .operating_hour dt{float:left;clear:both}
+.section .faq_area .operating_hour dd{float:left;margin-left:3px;width:80%}
+
+
+
+.answer_con table  { width:90%; border-top:#575757 solid 2px; border-bottom:#b7b7b7 solid 1px; margin-left:0;}
+.answer_con table th { background-color:#f7f7f7; border-top:#d8d8d8 solid 1px;  border-right:#d8d8d8 solid 1px; text-align:center;  color:#7b7b7b; line-height:38px  }
+.answer_con table tr:first-child th {border-top:none; }
+ 
+.answer_con table tr th:first-child { border-left:#d8d8d8 solid 1px; }
+
+.answer_con table td { color:#a9a9a9; padding:0; border-top:#d8d8d8 solid 1px; border-right:#d8d8d8 solid 1px; text-align:left; font-size:12px; padding-left:10px;} 
+.answer_con table td span { color:#6c6c6c; font-size:11px}
+.answer_con table .left_t { color:#8f8f8f; padding:0 0 0 5px; border-top:#d8d8d8 solid 1px; text-align:left;} 
+.answer_con table .cmtnom {color:#ff6600;}
+
+.answer_con table a { color:#8f8f8f; text-decoration:none }
+.answer_con table tr:hover { background:#f6f8fe; }
+
+.answer_con table .list_read { color:#8f8f8f; border-bottom:#d8d8d8 dotted 1px; text-align:left; padding:15px; background-color:#FFF  }
+.answer_con table .list_read img { display:block; margin:10px 0 }
+.answer_con table input { vertical-align:middle }

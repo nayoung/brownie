@@ -1,0 +1,66 @@
+<?php require_once _VIEW_PATH . 'header.html'; ?>
+
+            <!--상단 히스토리, 데이터로딩-->
+            <div class="history">
+                <span>▶</span>클라이언트<span>▶</span><strong>OS 언어별 설정</strong>
+            </div>
+
+            <div class="data_loading">
+                <span> IP : <?=$_SERVER['REMOTE_ADDR']?><strong><a href="#"><?=$_SESSION['admin']['name']?></a> 님 반갑습니다.</strong></span>
+                <button id="btn-logout" class="btn" >LOGOUT</button>
+            </div>
+            <!--//상단 히스토리, 데이터로딩-->
+
+
+            <!-- BOX 시작 -->
+
+            <div class="box">
+                <h3>OS 언어별 설정</h3>
+                <form name="frm_search" action="" method="GET">
+                <div class="search_box">
+                    <input type="text" name="code" class="ad_box" value="<?=$request['code']?>"  placeholder="언어코드" />
+                    <button type="submit" class="btn btn_black">검색</button> <button type="button" class="btn btn_red btn-register">등록</button>
+                </div>
+
+                <select name="scale" class="">
+                    <option value="50" <?=($request['scale'] == 50)?'selected="selected"':''?>>50줄</option>
+                    <option value="100" <?=($request['scale'] == 100)?'selected="selected"':''?>>100줄</option>
+                    <option value="200" <?=($request['scale'] == 200)?'selected="selected"':''?>>200줄</option>
+                </select>
+                </form>
+
+                <div class="clear" style="margin-bottom:5px;"></div>
+
+                <table class="table table_striped">
+                    <tr>
+                        <th scope="col">언어</th>
+                        <th scope="col">언어 코드</th>
+                        <th scope="col">Job 집행</th>
+                        <th scope="col">비고</th>
+                        <th scope="col">비고</th>
+                    </tr>
+                    <?php foreach ($list as $l):?>
+                    <tr>
+                        <td><?=$l['name']?></td>
+                        <td><a href="javascript://" class="btn-modify"><?=$l['code']?></a></td>
+                        <td><?=$l['status']?></td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <?php endforeach;?>
+                </table>
+                <?=$page_html?>
+            </div>
+<script type="text/javascript">
+    $(function () {
+        $('.btn-register').on('click', function (e) {
+            e.preventDefault();
+            popupOpen(_WEB_ROOT + '/client.php?act=oslangRegisterPop', 'oslangRegister', 700, 250);
+        });
+        $('.btn-modify').on('click', function (e) {
+            e.preventDefault();
+            popupOpen(_WEB_ROOT + '/client.php?act=oslangRegisterPop&code=' + $(this).html(), 'oslangRegister', 700, 250);
+        });
+    });
+</script>
+<?php require_once _VIEW_PATH . 'footer.html'; ?>

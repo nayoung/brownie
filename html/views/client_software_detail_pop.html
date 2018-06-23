@@ -1,0 +1,56 @@
+<?php require_once _VIEW_PATH . 'common.header.html'; ?>
+    <div class="contents">
+        <div class="box" style="max-width:1200px; width:calc(100% - 40px); margin:0 auto;">
+
+            <h3>응용프로그램 등록/수정<span><button class="btn btn-popup-close">팝업닫기</button></span></h3>
+            <form name="frm_register" action="<?=_WEB_ROOT?>/client.php" method="POST">
+            <input type="hidden" name="act" value="<?=((int) $client_list[0]['idx'])?'softwareModify':'softwareRegister'?>">
+            <input type="hidden" name="idx" value="<?=$client_list[0]['idx']?>">
+            <table class="table_popup">
+                <tr>
+                    <th scope="col">응용프로그램 이름</th>
+                    <td><input type="text" name="name" class="i_box" value="<?=$client_list[0]['name']?>" /></td>
+                </tr>
+                <tr>
+                    <th scope="col">상태</th>
+                    <td><select name="status">
+                        <?php foreach (OsLang::$status as $v):?>
+                        <option value="<?=$v?>" <?=($v == $client_list[0]['status'])?'selected="selected"':''?>><?=$v?></option>
+                        <?php endforeach;?>
+                    </select></td>
+                </tr>
+                <tr>
+                    <th scope="col">개발사</th>
+                    <td><select name="company">
+                        <option value="">선택</option>
+                        <?php foreach ($develop_list as $d):?>
+                        <option value="<?=$d['company']?>" <?=($d['company'] == $client_list[0]['company'])?'selected="selected"':''?>><?=$d['company']?></option>
+                        <?php endforeach;?>
+                    </select></td>
+                </tr>
+            </table>
+
+            <div class="pager">
+                <button type="button" class="btn btn_bottom btn_black btn-popup-close">취소</button> <button type="submit" class="btn btn_bottom btn_red">등록/수정</button>
+            </div>
+            </form>
+        </div>
+    </div>
+<script type="text/javascript">
+    $(function() {
+        $('form[name=frm_register]').submit(function () {
+            var bool = true;
+
+            $(this).find('input:not(:hidden),select').each(function() {
+                if ($.trim($(this).val()) == '') {
+                    alert('모든 항목을 입력해주세요.');
+                    $(this).focus();
+                    bool = false;
+                    return false;
+                }
+            });
+            return bool;
+        });
+    });
+</script>
+<?php require_once _VIEW_PATH . 'footer.html'; ?>

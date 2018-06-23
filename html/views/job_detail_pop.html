@@ -1,0 +1,303 @@
+<?php require_once _VIEW_PATH . 'common.header.html'; ?>
+    <style>
+        .tab{ position:relative; margin:0; padding:0; width:100%; height:42px; }
+        .tab li{position:relative; float:left; cursor:pointer; overflow:hidden; width:calc(33% + 1px); max-width:150px;  height:40px; text-align:center; line-height:40px; border:1px solid #575757; border-left:none; background:#fff; font-size:18px; color:#666; border-radius:15px 15px 0 0}
+        .tab li.active {background:#575757; border-bottom:1px solid #575757; color:#fff }
+        .tab li:first-child{ border-left:1px solid #575757;}
+        .tab a:hover { text-decoration:none }
+        .tab_container { width:100%; border-top:none; clear:both; margin-top:-20px}
+        .tab_content { width:calc(100% - 3px); min-height:200px; height:auto; padding:0; display:none; }
+
+    </style>
+
+    <script>
+        // tab
+        $(function(){
+            $(".tab_content").hide();
+            $(".tab_content:first").show();
+            $("ul.tab li").mouseenter(function(){
+                $("ul.tab li").removeClass("active").css("color", "#000");
+                $(this).addClass("active").css("color", "#fff");
+                $(".tab_content").hide()
+                var activeTab = $(this).attr("rel");
+                $("#" + activeTab).show()
+            });
+        });
+    </script>
+
+
+    <div class="contents">
+        <div class="box" style="max-width:1200px; width:calc(100% - 40px); margin:0 auto;">
+
+            <h3>Job 등록/수정</h3>
+
+            <ul class="tab">
+                <li class="active" rel="tab_01" >Job 실행옵션</li>
+                <li rel="tab_02" <?=(sizeof($job_list) > 0)? '':'style="display:none;"'?>>Job 내용</li>
+            </ul>
+
+            <div class="tab_container">
+                <!--1-->
+                <div id="tab_01" class="tab_content">
+                    <form name="frm_job" action="<?=_WEB_ROOT?>/job.php" method="POST">
+                    <input type="hidden" name="act" value="<?=(sizeof($job_list) > 0)?'jobModify':'jobRegister'?>">
+                    <input type="hidden" name="jobid" value="<?=$job_list[0]['jobid']?>">
+                    <table class="table_popup" >
+                        <tr>
+                            <th scope="col">Job  언어</th>
+                            <td>
+                                <?php
+                                $oslang_array = explode(Job::$oslang_section, $job_list[0]['oslang']);
+                                foreach ($oslang_list as $ol):?>
+                                <label><input type="checkbox" name="oslang[]" value="<?=$ol['code']?>"  <?=(in_array($ol['code'], $oslang_array))?'checked="checked"':''?>/> <?=$ol['name']?>&nbsp;</label>
+                                <?php endforeach;?>
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <th scope="col">상태</th>
+                            <td>
+                                <?php foreach (Job::$status as $k => $v):?>
+                                <label><input name="status" type="radio" onfocus="this.blur()" value="<?=$v?>" <?=($v == $job_list[0]['status'] || $k == 0)?'checked="checked"':''?>/> <?=$v?>&nbsp;</label>
+                                <?php endforeach;?>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="col">Job Type</th>
+                            <td><select name="jobtype">
+                                <option value="">선택</option>
+                                <?php foreach (Job::$job_type as $k => $v):?>
+                                <option value="<?=$k?>" <?=($k == $job_list[0]['jobtype'])?'selected="selected"':''?>><?=$v?></option>
+                                <?php endforeach;?>
+                            </select></td>
+                        </tr>
+                        <tr>
+                            <th scope="col">Job 이름</th>
+                            <td><input type="text" name="jobname" class="i_box" value="<?=$job_list[0]['jobname']?>"/></td>
+                        </tr>
+                        <tr>
+                            <th scope="col">가중치</th>
+                            <td><input type="number" name="weight" class="i_box" value="<?=$job_list[0]['weight']?>"/></td>
+                        </tr>
+                        <tr>
+                            <th scope="col">클라이언트 최소버전</th>
+                            <td><select name="cminver">
+                                <option value="">선택</option>
+                                <?php foreach (Job::$client_minver as $v):?>
+                                <option value="<?=$v?>" <?=($v == $job_list[0]['cminver'])?'selected="selected"':''?>><?=$v?></option>
+                                <?php endforeach;?>
+                            </select></td>
+                        </tr>
+                        <tr>
+                            <th scope="col">동일 Job 실행제한</th>
+                            <td><input type="number" name="timelimit" class="i_box" value="<?=$job_list[0]['timelimit']?>"/> 분</td>
+                        </tr>
+                        <tr>
+                            <th scope="col">일정</th>
+                            <td>
+                                <?php
+                                    $startdt = explode(' ', $job_list[0]['startdt']);
+                                    $enddt = explode(' ', $job_list[0]['enddt']);
+                                ?>
+                                <input type="date" name="startdt[]" class="i_box" value="<?=$startdt[0]?>" /> <input type="time" name="startdt[]" class="i_box" value="<?=$startdt[1]?>"/>
+                                ~
+                                <input type="date" name="enddt[]" class="i_box" value="<?=$enddt[0]?>" /> <input type="time" name="enddt[]" class="i_box" value="<?=$enddt[1]?>" /></td>
+                        </tr>
+                    </table>
+                    <div class="pager">
+                        <button type="button" class="btn btn_bottom btn_black btn-popup-close">취소</button>
+                        <button type="submit" class="btn btn_bottom btn_red">등록/수정</button>
+                    </div>
+                    </form>
+                </div>
+
+                <script type="text/javascript">
+                    $(function () {
+                        $('form[name=frm_job]').submit(function () {
+                            var bool = true;
+
+
+                            if ($(this).find('[name="oslang[]"]:checked').length == 0) {
+                                alert('Job언어를 선택해주세요.');
+                                return false;
+                            }
+
+                            if ($(this).find('[name=status]:checked').length == 0) {
+                                alert('상태를 선택해주세요.');
+                                return false;
+                            }
+
+                            $(this).find('input:text,select').each(function () {
+                                if ($.trim($(this).val()) == '') {
+                                    alert('모든 항목을 입력해주세요.');
+                                    $(this).focus();
+                                    bool = false;
+                                    return false;
+                                }
+                            });
+
+                            return bool;
+                        });
+                    });
+                </script>
+
+
+                <!--2-->
+                <div id="tab_02" class="tab_content">
+                    <form name="frm_task" action="<?=_WEB_ROOT?>/job.php" method="POST">
+                    <input type="hidden" name="act" value="taskApply">
+                    <input type="hidden" name="jobid" value="<?=$job_list[0]['jobid']?>">
+
+                    <table class="table_popup" id="task">
+                        <thead>
+                        <tr>
+                            <th scope="col">Step 순서</th>
+                            <td>Action Type</td>
+                            <td>체류시간(초)</td>
+                            <td>Step별 Action 정의</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                    <div class="pager">
+                        <button type="button" class="btn btn_bottom btn_black btn-popup-close">취소</button> <button type="submit" class="btn btn_bottom btn_red">등록/수정</button>
+                    </div>
+                    </form>
+
+                    <table id="sample" style="display:none;">
+                        <tr class="random">
+                            <th scope="col" class="step"></th>
+                            <td><select name="actiontype[]" class="actiontype">
+                                <?php foreach (Task::$actiontype as $k => $v):?>
+                                <option value="<?=$v?>" data-type="<?=$k?>" <?=($v == Task::$actiontype['random'])?'selected="selected"':''?>><?=$v?></option>
+                                <?php endforeach;?>
+                            </select></td>
+                            <td><input type="text" name="minstay[]" class="i_box" style="width:20px" value="4" /> /
+                                <input type="text" name="maxstay[]" class="i_box" style="width:20px" value="40" /></td>
+                            <td>
+                                <div><input type="text" name="actions[]" placeholder="URL" class="i_box" style="width:calc(100% - 60px)" /><button class="btn_add">+</button><button class="btn_del">-</button></div>
+                                <div><input type="text" name="actions[]" placeholder="URL" class="i_box" style="width:calc(100% - 60px)" /><button class="btn_add">+</button><button class="btn_del">-</button></div>
+                            </td>
+                            <td><button class="btn_add2">+</button><button class="btn_del2">-</button></td>
+                        </tr>
+                        <tr class="static">
+                            <th scope="col" class="step"></th>
+                            <td><select name="actiontype[]" class="actiontype">
+                                <?php foreach (Task::$actiontype as $v):?>
+                                <option value="<?=$v?>" data-type="<?=$k?>" <?=($v == Task::$actiontype['static'])?'selected="selected"':''?>><?=$v?></option>
+                                <?php endforeach;?>
+                            </select></td>
+                            <td><input type="text" name="minstay[]" class="i_box" style="width:20px" value="4" /> /
+                                <input type="text" name="maxstay[]" class="i_box" style="width:20px" value="40" /></td>
+                            <td><input type="text" name="actions[]" placeholder="URL" class="i_box" style="width:calc(100% - 60px)" /></td>
+                            <td><button class="btn_add2">+</button><button class="btn_del2">-</button></td>
+                        </tr>
+                        <tr class="text">
+                            <th scope="col" class="step"></th>
+                            <td><select name="actiontype[]" class="actiontype">
+                                <?php foreach (Task::$actiontype as $v):?>
+                                <option value="<?=$v?>" data-type="<?=$k?>" <?=($v == Task::$actiontype['text'])?'selected="selected"':''?>><?=$v?></option>
+                                <?php endforeach;?>
+                            </select></td>
+                            <td><input type="text" name="minstay[]" class="i_box" style="width:20px" value="4" /> /
+                                <input type="text" name="maxstay[]" class="i_box" style="width:20px" value="40" /></td>
+                            <td><input type="text" name="actions[]" placeholder="입력 Text" class="i_box" style="width:calc(100% - 60px)" /><input type="text" placeholder="입력 경로" class="i_box" style="width:calc(100% - 60px)" /></td>
+                            <td><button class="btn_add2">+</button><button class="btn_del2">-</button></td>
+                        </tr>
+                        <tr class="back">
+                            <th scope="col" class="step"></th>
+                            <td><select name="actiontype[]" class="actiontype">
+                                <?php foreach (Task::$actiontype as $v):?>
+                                <option value="<?=$v?>" data-type="<?=$k?>" <?=($v == Task::$actiontype['back'])?'selected="selected"':''?>><?=$v?></option>
+                                <?php endforeach;?>
+                            </select></td>
+                            <td><input type="text" name="minstay[]" class="i_box" style="width:20px" value="4" /> /
+                                <input type="text" name="maxstay[]" class="i_box" style="width:20px" value="40" /></td>
+                            <td>&nbsp;</td>
+                            <td><button class="btn_add2">+</button><button class="btn_del2">-</button></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script type="text/javascript">
+    $(function () {
+        var task = $('#task').find('tbody');
+        var sampleTbl = $('#sample');
+
+        var stepSrot = function() {
+            task.find('tr th.step').each(function (idx) {
+                $(this).html(idx+1);
+            });
+
+            task.find('tr td div:nth-child(1) button.btn_del').hide();
+            task.find('tr td button.btn_del2:first').hide();
+        }
+
+        var init = function () {
+            task.empty();
+            var tr = sampleTbl.find('tr.random').clone();
+            task.append(tr);
+            var tr = sampleTbl.find('tr.random').clone();
+            task.append(tr);
+            var tr = sampleTbl.find('tr.static').clone();
+            task.append(tr);
+            var tr = sampleTbl.find('tr.text').clone();
+            task.append(tr);
+            var tr = sampleTbl.find('tr.back').clone();
+            task.append(tr);
+
+            stepSrot();
+        }
+        if (Number("<?=sizeof($task_list)?>") == 0) {
+            init();
+        }
+
+        $(document).on('click', 'tr.random div button.btn_add', function (e) {
+            e.preventDefault();
+
+            var block = $(this).closest('div').clone();
+            block.find('input').val('');
+            //block.find('button').show();
+            $(this).closest('div').after(block);
+        });
+        $(document).on('click', 'tr.random div button.btn_del', function (e) {
+            e.preventDefault();
+
+            $(this).closest('div').remove();
+        });
+
+        $(document).on('click', 'tr button.btn_add2', function (e) {
+            e.preventDefault();
+
+            var trClass = $(this).closest('tr').attr('class');
+            var tr = sampleTbl.find('tr.' + trClass).clone();
+            $(this).closest('tr').after(tr);
+
+            stepSrot();
+        });
+        $(document).on('click', 'tr button.btn_del2', function (e) {
+            e.preventDefault();
+
+            $(this).closest('tr').remove();
+
+            stepSrot();
+        });
+
+        $('#task .actiontype').on('change', function () {
+            var tr = $(this).closest('tr');
+            var actionType = $(this).find('option:selected').data('type');
+            var sampleTr = sampleTbl.find('tr.' + actionType).clone();
+
+            tr.after(sampleTr).remove();
+
+            stepSrot();
+        });
+    });
+</script>
+<?php require_once _VIEW_PATH . 'footer.html'; ?>

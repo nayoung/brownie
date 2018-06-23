@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="67bef115-5fd6-462a-aa7b-c99ad5767862" name="brownie_admin" url="http://admin.brownie.club">
+        <fileTransfer host="1.240.11.214" port="11122" rootFolder="/home/brownie" accessType="SFTP">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" />
+          </advancedOptions>
+          <option name="port" value="11122" />
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

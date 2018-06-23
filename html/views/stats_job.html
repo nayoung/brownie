@@ -1,0 +1,198 @@
+<?php require_once _VIEW_PATH . 'header.html'; ?>
+
+            <!--상단 히스토리, 데이터로딩-->
+            <div class="history">
+                <span>▶</span>통계<span>▶</span><strong>Job 통계</strong>
+            </div>
+
+            <div class="data_loading">
+                <span> IP : <?=$_SERVER['REMOTE_ADDR']?><strong><a href="#"><?=$_SESSION['admin']['name']?></a> 님 반갑습니다.</strong></span>
+                <button id="btn-logout" class="btn" >LOGOUT</button>
+            </div>
+            <!--//상단 히스토리, 데이터로딩-->
+
+
+            <!-- BOX 시작 -->
+
+            <div class="box">
+                <h3>Job 통계</h3>
+                <div class="search_box">
+
+                    <select name="" >
+                        <option>Job 언어</option>
+                        <option>OPTION1</option>
+                        <option>OPTION2</option>
+                    </select>
+                    <select name="" >
+                        <option>모든 Job Type</option>
+                        <option>OPTION1</option>
+                        <option>OPTION2</option>
+                    </select>
+
+                    <input type="date" class="ad_box" /> ~ <input type="date" class="ad_box" />
+                    <button class="btn btn_black">검색</button>
+                </div>
+
+                <select name="" class="" >
+                    <option>50줄</option>
+                    <option>100줄</option>
+                    <option>200줄</option>
+                </select>
+
+                <div class="clear" style="margin-bottom:5px;"></div>
+
+                <table class="table table_striped">
+                    <tr>
+                        <th scope="col">일자</th>
+                        <th scope="col">언어</th>
+                        <th scope="col">Job Type</th>
+                        <th scope="col">Job 이름</th>
+                        <th scope="col">Job Start</th>
+                        <th scope="col">Job Done</th>
+                        <th scope="col">비고</th>
+                    </tr>
+                    <tr>
+                        <td>2018-05-30</td>
+                        <td>KR</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+
+                </table>
+
+                <div class="pager">
+                    <a href="#">Prev</a><a href="#" class="active">1</a><a href="#">2</a><a href="#">3</a><a href="#">4</a><a href="#">5</a><a href="#">6</a><a href="#">7</a><a href="#">8</a><a href="#">10</a><a href="#">Next</a>
+                </div>
+
+            </div>
+
+<?php require_once _VIEW_PATH . 'footer.html'; ?>

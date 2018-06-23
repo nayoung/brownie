@@ -1,0 +1,37 @@
+<?php require_once _VIEW_PATH . 'common.header.html'; ?>
+    <!--상단메뉴-->
+    <!--전체메뉴보기//-->
+    <div class="nav_all"><a href="javascript:" onclick="jQuery('.menu_all').fadeToggle(500);">전체메뉴보기</a></div>
+    <div class="menu_all" onclick="jQuery('.menu_all').fadeOut(200);" >
+        <?php foreach ($_SESSION['path'] as $idx => $menu):?>
+        <ul>
+            <h3><?=$menu[0]['name']?></h3>
+            <?php foreach($menu as $sub_menu): if ($sub_menu['parent_id'] == 0): continue; endif;?>
+            <li><a href="<?=($sub_menu['read'] == 'Y')?_WEB_ROOT . $sub_menu['url']:'#'?>" <?=($sub_menu['read'] == 'Y')?'':'class="deny"'?>><span><?=$sub_menu['name']?></span></a></li>
+            <?php endforeach;?>
+        </ul>
+        <?php endforeach;?>
+    </div>
+
+    <!--//상단메뉴-->
+
+    <div class="body_wrap">
+
+        <!--왼쪽메뉴-->
+        <div id="leftmenu" class="leftmenu">
+            <div class="logo"><strong><a href="<?=$_SESSION['first_page']?>">Brownie</a></strong></div>
+            <ul>
+                <?php $idx = 0; foreach ($_SESSION['path'] as $menu):?>
+                <li class="active"><a href="#"><i class="<?=Menu::$menu_icon[$idx]?>"></i><?=$menu[0]['name']?></a>
+                    <ul style="display:block;">
+                        <?php foreach($menu as $sub_menu): if ($sub_menu['parent_id'] == 0): continue; endif;?>
+                        <li><a href="<?=($sub_menu['read'] == 'Y')?_WEB_ROOT . $sub_menu['url']:'#'?>" <?=($sub_menu['read'] == 'Y')?'':'class="deny"'?>><span><?=$sub_menu['name']?></span></a></li>
+                        <?php endforeach;?>
+                    </ul>
+                </li>
+                <?php $idx++; endforeach;?>
+            </ul>
+        </div>
+
+        <!--컨텐츠내용-->
+        <div class="contents">

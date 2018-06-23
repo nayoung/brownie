@@ -1,0 +1,40 @@
+<?php require_once _VIEW_PATH . 'common.header.html'; ?>
+    <div class="contents">
+        <div class="box" style="max-width:1200px; width:calc(100% - 40px); margin:0 auto;">
+
+            <h3>권한그룹 이름 등록/수정<span>
+            <button class="btn btn-popup-close">팝업닫기</button></span></h3>
+            <form name="frm_register" action="<?=_WEB_ROOT?>/auth.php" method="POST">
+            <input type="hidden" name="act" value="register">
+            <input type="hidden" name="id" value="<?=$auth_list[0]['id']?>">
+            <table class="table_popup">
+                <tr>
+                    <th width="150" scope="col">권한그룹명</th>
+                    <td><input type="text" name="name" class="" style="" value="<?=$auth_list[0]['name']?>"/></td><!-- 인풋박스로 수정 16.09.22 -->
+                </tr>
+            </table>
+
+            <div class="pager">
+                <button class="btn btn_bottom btn_black btn-popup-close">취소</button> <button class="btn btn_bottom btn_red btn-register">등록/수정</button>
+            </div>
+            </form>
+        </div>
+    </div>
+<script type="text/javascript">
+    $(function() {
+        $('form[name=frm_register]').submit(function () {
+            var bool = true;
+            $(this).find('table input,table select').each(function (idx, data) {
+                if ($.trim($(this).val()) == '') {
+                    bool = false;
+                    alert('값이 입력되지 않은 항목이 있습니다.');
+                    $(this).focus();
+                    return false;
+                }
+            });
+
+            return bool;
+        });
+    });
+</script>
+<?php require_once _VIEW_PATH . 'footer.html'; ?>

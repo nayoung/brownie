@@ -1,0 +1,103 @@
+<?php require_once _VIEW_PATH . 'header.html'; ?>
+
+            <!--상단 히스토리, 데이터로딩-->
+            <div class="history">
+                <span>▶</span>기타<span>▶</span><strong>권한그룹 리스트</strong>
+            </div>
+
+            <div class="data_loading">
+                <span> IP : <?=$_SERVER['REMOTE_ADDR']?><strong><a href="#"><?=$_SESSION['admin']['name']?></a> 님 반갑습니다.</strong></span>
+                <button id="btn-logout" class="btn" >LOGOUT</button>
+            </div>
+            <!--//상단 히스토리, 데이터로딩-->
+
+            <!-- BOX 시작 -->
+            <div class="box">
+                <h3>권한그룹 리스트</h3>
+                <form name="frm_auth" action="" method="POST">
+                <input type="hidden" name="act" value="apply">
+                <div class="search_box">
+                    <?php if (sizeof($list) > 0):?>
+                    <select name="auth">
+                        <?php foreach ($list as $l):?>
+                        <option value="<?=$l['id']?>" <?=($l['id'] == $request['auth'])?'selected="selected"':''?>><?=$l['name']?></option>
+                        <?php endforeach;?>
+                    </select>
+                    <button type="button" class="btn btn_black btn-modify">권한그룹 이름 수정</button>
+                    <?php endif;?>
+                    <button type="button" class="btn btn_red btn-register">권한그룹 등록</button>
+                </div>
+
+                <div class="clear" style="margin-bottom:5px;"></div>
+                <?php if (sizeof($list) > 0):?>
+                <table class="table_list">
+                    <tr>
+                        <th scope="col">메뉴/분류</th>
+                        <th scope="col">대분류</th>
+                        <th scope="col">중분류</th>
+                    </tr>
+
+                    <?php foreach ($menu_array as $ma):?>
+                    <tr>
+                        <th rowspan="<?=$ma['rowspan']?>"><?=$ma['name']?></th>
+                        <?php if (sizeof($ma['child']) > 0): $c1 = 0;?>
+                            <?php foreach ($ma['child'] as $cate1):?>
+                                <?=($c1 > 0)?'<tr>':''?>
+                        <td rowspan="<?=$cate1['rowspan']?>"><strong><?=$cate1['name']?></strong>
+                            <label><input name="menu[<?=$cate1['id']?>][read]" type="checkbox" value="Y" <?=($auth_menu_array[$cate1['id']]['read'] == 'Y')?'checked="checked"':''?>> 읽기</label>&nbsp;
+                            <label><input name="menu[<?=$cate1['id']?>][write]" type="checkbox" value="Y" <?=($auth_menu_array[$cate1['id']]['write'] == 'Y')?'checked="checked"':''?>> 쓰기</label>
+                        </td>
+                                <?php if (sizeof($cate1['child']) > 0): $c2 = 0?>
+                                    <?php foreach ($cate1['child'] as $cate2):?>
+                                        <?=($c2 > 0)?'<tr>':''?>
+                        <td><strong><?=$cate2['name']?></strong>
+                            <label><input name="menu[<?=$cate2['id']?>][read]" type="checkbox" value="Y" <?=($auth_menu_array[$cate2['id']]['read'] == 'Y')?'checked="checked"':''?>> 읽기</label>&nbsp;
+                            <label><input name="menu[<?=$cate2['id']?>][write]" type="checkbox" value="Y" <?=($auth_menu_array[$cate2['id']]['write'] == 'Y')?'checked="checked"':''?>> 쓰기</label>
+                        </td>
+                                        <?=($c2 > 0)?'</tr>':''?>
+                                    <?php $c2++; endforeach;?>
+                                <?php else:?>
+                        <td></td>
+                                <?php endif;?>
+                                <?=($c1 > 0)?'</tr>':''?>
+                            <?php $c1++; endforeach;?>
+                        <?php else:?>
+                        <td></td>
+                        <td></td>
+                        <?php endif;?>
+                    </tr>
+                    <?php endforeach;?>
+                </table>
+
+                <!-- 적용하기 추가 16.09.22 -->
+                <div class="pager">
+                    <button type="submit" class="btn btn_bottom btn_blue">적용하기</button>
+                </div>
+                <?php endif;?>
+                </form>
+            </div>
+<script type="text/javascript">
+    $(function () {
+        var frm = $('form[name=frm_auth]');
+
+        frm.find('select[name=auth]').on('change', function() {
+            location.href = location.pathname + '?auth=' + $(this).val();
+        });
+
+        frm.find('.btn-register').on('click', function (e) {
+            e.preventDefault();
+            popupOpen('<?=_WEB_ROOT?>/auth.php?act=registerPop', 'authRegister', 700, 250);
+        });
+        frm.find('.btn-modify').on('click', function (e) {
+            e.preventDefault();
+            popupOpen('<?=_WEB_ROOT?>/auth.php?act=registerPop&id=' + frm.find('[name=auth]').val(), 'authModify', 700, 250);
+        });
+
+        frm.submit(function () {
+            if (Number(frm.find('[name=auth]').val()) == 0) {
+                return alter('등록된 권한그룹에 대해서만 권한을 적용할수 있습니다.');
+            }
+        });
+    });
+</script>
+<?php require_once _VIEW_PATH . 'footer.html'; ?>

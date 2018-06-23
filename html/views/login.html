@@ -1,0 +1,55 @@
+<?php require_once _VIEW_PATH . 'common.header.html'; ?>
+    <div class="login_wrap">
+    <!-- 1.로그인 ---------->
+        <div class="login_tit">Brownie Service <span>admin</span></div>
+
+        <div class="login">
+            <form name="frm_login" id="frm-login" action="<?=_WEB_ROOT?>/login.php" method="POST">
+                <input type="hidden" name="act" value="loginPrc">
+            <table>
+                <tr>
+                    <td>
+                        <input name="id" class="id" type="text" tabindex="1" placeholder="ID" value="test" style="width:180px">
+                    </td>
+                    <td width="100" rowspan="2" valign="middle"><button type="submit" class="btn btn_black btn_login">Login</button></td>
+                </tr>
+                <tr>
+                    <td>
+                        <input name="password" class="pw" type="password" tabindex="2" placeholder="Password" maxlength="20" value="test" style="width:180px" >
+                    </td>
+                </tr>
+                <!--
+                  <tr>
+                    <td valign="top" class="save" colspan="2">
+
+                    <span class="float_left">
+                    <input type="checkbox" style="vertical-align:-0.1em;" value="Y" name="log_save"> ID 저장
+                    </span>
+                    <span class="float_right">
+                    <a href="#" title="아이디비번찾기">ID/비밀번호 찾기</a>&nbsp;&nbsp;&nbsp;<a href="#"  title="회원가입">회원가입</a>
+                    </span>
+                    -->
+                </td>
+                </tr>
+            </table>
+            </form>
+        </div>
+
+    <!-- 1.로그인 end---------->
+    </div>
+    <script>
+        $(function() {
+            $('#frm-login').submit(function() {
+                if ($.trim($(this).find('input[name=id]').val()).length == 0) {
+                    alert('아이디를 입력해 주세요.');
+                    return false;
+                }
+                if ($.trim($(this).find('input[name=password]').val()).length == 0) {
+                    alert('패스워드를 입력해 주세요.');
+                    return false;
+                }
+            });
+
+        })
+    </script>
+<?php require_once _VIEW_PATH . 'footer.html'; ?>

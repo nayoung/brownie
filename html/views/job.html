@@ -1,0 +1,111 @@
+<?php require_once _VIEW_PATH . 'header.html'; ?>
+
+            <!--상단 히스토리, 데이터로딩-->
+            <div class="history">
+                <span>▶</span>Job 리스트<span>▶</span><strong>Job 리스트</strong>
+            </div>
+
+            <div class="data_loading">
+                <span> IP : <?=$_SERVER['REMOTE_ADDR']?><strong><a href="#"><?=$_SESSION['admin']['name']?></a> 님 반갑습니다.</strong></span>
+                <button id="btn-logout" class="btn" >LOGOUT</button>
+            </div>
+            <!--//상단 히스토리, 데이터로딩-->
+
+            <!-- BOX 시작 -->
+            <div class="box">
+                <h3>Job 리스트</h3>
+                <form name="frm_search" action="" method="GET">
+                <div class="search_box">
+                    <select name="oslang" >
+                        <option value="">OS 언어</option>
+                        <?php foreach ($oslang_list as $ol):?>
+                        <option value="<?=$ol['code']?>" <?=($ol['code'] == $request['oslang'])?'selected="selected"':''?>><?=$ol['name']?></option>
+                        <?php endforeach;?>
+                    </select>
+
+                    <select name="jobtype" >
+                        <option value="">모든 Job Type</option>
+                        <?php foreach (Job::$job_type as $v):?>
+                        <option value="<?=$v?>" <?=($v == $request['jobtype'])?'selected="selected"':''?>><?=$v?></option>
+                        <?php endforeach;?>
+                    </select>
+
+                    <select name="status" >
+                        <option value="">상태</option>
+                        <?php foreach (Job::$status as $v):?>
+                        <option value="<?=$v?>" <?=($v == $request['status'])?'selected="selected"':''?>><?=$v?></option>
+                        <?php endforeach;?>
+                    </select>
+
+                    <input type="text" name="jobname" class="ad_box" value="<?=$request['jobname']?>" placeholder="Job 이름" />
+                    <button type="submit" class="btn btn_black">검색</button> <button type="button" class="btn btn_red btn-register">등록</button>
+                </div>
+
+                <select name="scale" class="">
+                    <option value="50" <?=($request['scale'] == 50)?'selected="selected"':''?>>50줄</option>
+                    <option value="100" <?=($request['scale'] == 100)?'selected="selected"':''?>>100줄</option>
+                    <option value="200" <?=($request['scale'] == 200)?'selected="selected"':''?>>200줄</option>
+                </select>
+                </form>
+
+                <div class="clear" style="margin-bottom:5px;"></div>
+
+                <table class="table table_striped">
+                    <tr>
+                        <th scope="col"><input name="" type="checkbox" ></th>
+                        <th scope="col">순서</th>
+                        <th scope="col">Job ID</th>
+                        <th scope="col">OS 언어</th>
+                        <th scope="col">Job Type</th>
+                        <th scope="col">Job 이름</th>
+                        <th scope="col">가중치</th>
+                        <th scope="col">Step 수</th>
+                        <th scope="col">상태</th>
+                        <th scope="col">시작일</th>
+                        <th scope="col">시작종료일일</th>
+                        <th scope="col">동일 Job 실행제한시간(분)</th>
+                    </tr>
+                    <?php
+                    $no = (($request['page'] - 1) * $request['scale']) + 1;
+                    foreach ($list as $l):
+                        $oslangs = explode(Job::$oslang_section, $l['oslang']);
+                        $oslangs_array = array();
+                        foreach ($oslangs as $o) :
+                            $oslangs_array[] = $oslang_array[$o];
+                        endforeach;
+                        $oslangs_str = join(', ', $oslangs_array);
+                    ?>
+                    <tr>
+                        <td><input name="" type="checkbox" ></td>
+                        <td><?=$no?></td>
+                        <td><?=$l['jobid']?></td>
+                        <td class="taL"><?=$oslangs_str?></td>
+                        <td class="taL"><?=Job::$job_type[$l['jobtype']]?></td>
+                        <td class="taL"><a href="javascript://" class="btn-job-detail" data-jobid="<?=$l['jobid']?>"><?=$l['jobname']?></a></td>
+                        <td class="taR"><?=$l['weight']?></td>
+                        <td class="taR"><?=$l['steps']?></td>
+                        <td <?=($l['status'] == '정지')?'class="red2"':''?>><?=$l['status']?></td>
+                        <td><?=substr($l['startdt'], 0, 10)?></td>
+                        <td><?=substr($l['enddt'], 0, 10)?></td>
+                        <td class="taR"><?=$l['timelimit']?></td>
+                    </tr>
+                    <?php $no++; endforeach;?>
+                    <tr>
+                </table>
+                <?=$page_html?>
+            </div>
+<script type="text/javascript">
+    $(function () {
+        $('.btn-register').on('click', function (e) {
+            e.preventDefault();
+            popupOpen('<?=_WEB_ROOT?>/job.php?act=registerPop', 'jobRegister', 800, 600);
+        });
+
+        $('.btn-job-detail').on('click', function (e) {
+            e.preventDefault();
+            var jobid = $(this).data('jobid');
+            popupOpen('<?=_WEB_ROOT?>/job.php?act=registerPop&jobid=' + jobid, 'jobModify', 800, 600);
+        });
+    });
+</script>
+<?php require_once _VIEW_PATH . 'footer.html'; ?>

@@ -1,0 +1,79 @@
+<?php require_once _VIEW_PATH . 'header.html'; ?>
+
+            <!--상단 히스토리, 데이터로딩-->
+            <div class="history">
+                <span>▶</span>클라이언트<span>▶</span><strong>클라이언트 공통 설정</strong>
+            </div>
+
+            <div class="data_loading">
+                <span> IP : <?=$_SERVER['REMOTE_ADDR']?><strong><a href="#"><?=$_SESSION['admin']['name']?></a> 님 반갑습니다.</strong></span>
+                <button id="btn-logout" class="btn" >LOGOUT</button>
+            </div>
+            <!--//상단 히스토리, 데이터로딩-->
+
+
+            <!-- BOX 시작 -->
+
+            <div class="box">
+                <h3>클라이언트 공통 설정</h3>
+                <form name="frm_search" action="" method="GET">
+                <div class="search_box">
+                    <button type="button" class="btn btn_black btn-apply">업데이트</button>
+                </div>
+
+                <select name="scale" class="">
+                    <option value="50" <?=($request['scale'] == 50)?'selected="selected"':''?>>50줄</option>
+                    <option value="100" <?=($request['scale'] == 100)?'selected="selected"':''?>>100줄</option>
+                    <option value="200" <?=($request['scale'] == 200)?'selected="selected"':''?>>200줄</option>
+                </select>
+                </form>
+
+                <div class="clear" style="margin-bottom:5px;"></div>
+                <form name="frm_common" action="<?=_WEB_ROOT?>/client.php">
+                <input type="hidden" name="act" value="commonApply">
+                <table class="table table_striped">
+                    <tr>
+                        <th scope="col">응용프로그램 이름</th>
+                        <th scope="col">응용프로그램 패키지명</th>
+                        <th scope="col">Job 집행</th>
+                        <th scope="col">비고</th>
+                    </tr>
+                    <tr>
+                        <td>Set_update </td>
+                        <td class="taL">클라이언트  공통 설정 정보, 언어별 설정, 응용프로그램 설정을 확인하는 주기</td>
+                        <td><input type="text" class="i_box" style="width:40px" value="" />
+                            시간</td>
+                        <td>설명 없음</td>
+                    </tr>
+                    <tr>
+                        <td>Set_miss </td>
+                        <td class="taL">Set_Update 수신 실패시 재확인 주기</td>
+                        <td><input type="text" class="i_box" style="width:40px" value="" />
+                            시간</td>
+                        <td>내용 없음</td>
+                    </tr>
+                    <tr>
+                        <td>Job_update </td>
+                        <td class="taL">Job정보 확인 주기</td>
+                        <td><input type="text" class="i_box" style="width:40px" value="" />
+                            시간</td>
+                        <td>내용 없음</td>
+                    </tr>
+                    <tr>
+                        <td>Job_miss </td>
+                        <td class="taL">Job정보 수신 실패시 재확인 주기</td>
+                        <td><input type="text" class="i_box" style="width:40px" value="" />
+                            시간</td>
+                        <td>내용 없음</td>
+                    </tr>
+                    <tr>
+                        <td>Job_expired /td>
+                        <td class="taL">Job정보 유효 시간</td>
+                        <td><input type="text" class="i_box" style="width:40px" value="" />
+                            시간</td>
+                        <td>이 시간이 지난 Job 정보는 무효 처리함</td>
+                    </tr>
+                </table>
+                </form>
+            </div>
+<?php require_once _VIEW_PATH . 'footer.html'; ?>
